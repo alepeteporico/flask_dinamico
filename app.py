@@ -1,7 +1,8 @@
 from flask import Flask, render_template
 from lxml import etree
-app=Flask(__name__)
 datos=etree.parse("libros.xml")
+app=Flask(__name__)
+
 
 @app.route('/',methods=["GET","POST"])
 def principal():
@@ -40,6 +41,8 @@ def cuenta_letras(palabra,letra):
 @app.route('libro/<int:codigo>',methods=["GET","POST"])
 def libros(datos,codigo):
     codigo=codigo
-    libro
+    autor=(datos.xpath('//autor[codigo/text()="%i"]/text()'%codigo))
+    libro=(datos.xpath('//titulo[codigo/text()="%i"]/text()'%codigo))
+    return render_template("biblioteca.html",libro=libro,autor=autor)
 
 app.run(debug=True)
